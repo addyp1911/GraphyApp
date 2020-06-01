@@ -47,6 +47,7 @@ def retrieve_image(url):
     req = Request(url, headers=headers)
     return BytesIO(urlopen(req).read())
 
+
 def resizing_image(story_id, story_obj, photo):
     image = Img.open(photo)
     resized_image = image.resize((600, 1200), Img.ANTIALIAS)
@@ -56,6 +57,7 @@ def resizing_image(story_id, story_obj, photo):
     resized_image_key = 'resized_images/{}.jpg'.format(str(story_id)+"_"+story_obj.grapher.username)
     resized_S3_image_url = upload_resized_images_to_S3(resized_image_key, in_mem_file)
     return resized_image, resized_S3_image_url
+
 
 def resizing_video(story_id, story_obj, video_clip):
     resized_clip = video_clip.resize(width=480)

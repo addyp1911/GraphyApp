@@ -1,1 +1,1 @@
-# GraphyApp
+This project was implemented using Django Rest Framework, and Amazon S3 bucket to store the resized images and videos.The API endpoints are - Create a Story, Fetch all Stories and Resize a Story. Please use Postman at these endpoints to get the responses.
