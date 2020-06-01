@@ -45,7 +45,7 @@ class RegisterView(GenericAPIView):
             user.save()
             return Response(responsedata(True, "You are logged in successfully, go ahead and create your own story feature", user_data), status=status.HTTP_200_OK)
         except Exception as ex:
-            return Response(responsedata(False, "Something went wrong: exception-"+str(ex)), status=status.HTTP_400_BAD_REQUEST)
+            return Response(responsedata(False, "Something went wrong"), status=status.HTTP_400_BAD_REQUEST)
 
 class StoryView(GenericAPIView):
     """
@@ -76,7 +76,7 @@ class StoryView(GenericAPIView):
         except User.DoesNotExist:
             raise ValidationError("The user matching query does not exist")
         except Exception as ex:
-            return Response(responsedata(False, "Something went wrong: exception-"+str(ex)), status=status.HTTP_400_BAD_REQUEST)
+            return Response(responsedata(False, "Something went wrong"), status=status.HTTP_400_BAD_REQUEST)
 
 class FetchStories(GenericAPIView):
     def get(self, request, *args, **kwargs):
@@ -118,7 +118,7 @@ class FetchStories(GenericAPIView):
         except ValidationError as ex:
             return Response(responsedata(False, str(ex)))
         except Exception as ex:
-            return Response(responsedata(False, "Something went wrong: exception-"+str(ex)), status=status.HTTP_400_BAD_REQUEST)
+            return Response(responsedata(False, "Something went wrong"), status=status.HTTP_400_BAD_REQUEST)
 
 class ResizeStories(GenericAPIView):
     serializer_class = StoryModifySerializer
@@ -152,4 +152,4 @@ class ResizeStories(GenericAPIView):
                 res_data.update({{'resized_video_clip_dimensions': resized_clip.size,'resized_video_url': resized_S3_video_url}})                  
             return Response(responsedata(True, "The story feature has been successfully resized", res_data), status=status.HTTP_200_OK)
         except Exception as ex: 
-            return Response(responsedata(False, "Something went wrong: exception-"+str(ex)), status=status.HTTP_400_BAD_REQUEST)
+            return Response(responsedata(False, "Something went wrong"), status=status.HTTP_400_BAD_REQUEST)
