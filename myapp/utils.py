@@ -4,6 +4,7 @@ from urllib.request import urlopen, Request
 from PIL import Image as Img
 from io import BytesIO
 from .constants import headers
+from botocore.client import Config
 
 def upload_resized_images_to_S3(resized_image_key, in_mem_file):
     boto3.client("s3").upload_fileobj(
@@ -14,11 +15,11 @@ def upload_resized_images_to_S3(resized_image_key, in_mem_file):
             'ACL': 'public-read'
         }
     )
-    resized_S3_image_url = boto3.client("s3").generate_presigned_url(
+    resized_S3_image_url = boto3.client("s3",config=Config(signature_version='s3v4')).generate_presigned_url(
                         ClientMethod='get_object',
                         Params={
                             'Bucket':AWS_STORAGE_BUCKET_NAME,
-                            'Key': resized_image_key
+                            'Key': resized_image_key,
                         })
     return  resized_S3_image_url                   
 
